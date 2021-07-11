@@ -15,6 +15,7 @@ class App extends React.Component {
   onSubmit = () => {
     this.setState({
       todoList: [...this.state.todoList, this.state.username],
+      username: '',
     });
   };
 
