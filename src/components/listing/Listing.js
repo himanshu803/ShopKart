@@ -1,28 +1,41 @@
 import React from "react";
-
-// const onTappedMe = (data) => {
-// console.log("i am tapped", data);
-// };
+import "./listing.scss";
+// import productImage from "../../assets/images/download.jpg";
 
 const Listing = (props) => {
   return (
-    <div>
-      <div>This is listing component</div>
-      <input
-        className="header-input"
-        placeholder="Search for your name"
-        value={props.username}
-        onInput={props.onInputChange}
-      />
-      {/* <Input inputValue={this.state.username} onTapMe={onTappedMe} /> */}
-      <button onClick={props.onSubmit}>Submit</button>
-      {/* <div>{this.state.username}</div> */}
-
-      <ul>
-        {props.todoList.map((item) => {
-          return <li>{item}</li>;
-        })}
-      </ul>
+    <div className="product-list">
+      {props.products.map((item) => {
+        let isInCart = props.cartItems.find((cartItem) => {
+          return cartItem.id === item.id;
+        });
+        return (
+          <li className="product-item" key={item.id}>
+            <img
+              className="product-image"
+              alt="product-shirt"
+              src={item.image}
+            />
+            <div>{item.title}</div>
+            <div>Rs. {item.price}</div>
+            {!isInCart ? (
+              <button
+                className="product-add-btn"
+                onClick={() => props.addToCart(item.id)}
+              >
+                Add to cart
+              </button>
+            ) : (
+              <button
+                className="product-remove-btn"
+                onClick={() => props.removeFromCart(item.id)}
+              >
+                Remove from cart
+              </button>
+            )}
+          </li>
+        );
+      })}
     </div>
   );
 };
