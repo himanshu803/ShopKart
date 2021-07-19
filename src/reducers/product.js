@@ -16,7 +16,7 @@ function filteredProductListReducer(state = [], action) {
   }
 }
 
-function searchTextReducer(state = [], action) {
+function searchTextReducer(state = "", action) {
   switch (action.type) {
     case "SEARCH_TEXT":
       return action.data;
