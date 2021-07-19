@@ -8,17 +8,11 @@ import {
   addItemsToCart,
   fetchProductList,
   removeItemsFromCart,
+  filterProductList,
+  searchList
 } from "./actions/action";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filteredProductData: [],
-      searchText: "",
-    };
-  }
-
   addToCart = (item) => {
     this.props.addItemsToCart(item);
   };
@@ -34,21 +28,19 @@ class App extends React.Component {
           return item.title.toLowerCase().includes(text);
         })
       : this.props.productList;
-    this.setState({
-      searchText: event.target.value,
-      filteredProductData: data,
-    });
+
+    this.props.searchList(event.target.value);
+    this.props.filterProductList(data);
   };
 
   render() {
-    console.log(this.props);
     return (
       <div className="App">
         <div className="App-Header">
           <Header cartCount={this.props.cartItemCount} />
           <Search onInputChange={this.onInputChange} />
           <Listing
-            products={this.props.productList}
+            products={this.props.filteredProductList}
             cartItems={this.props.cartItems}
             addToCart={this.addToCart}
             removeFromCart={this.removeFromCart}
@@ -68,6 +60,7 @@ const mapStateToProps = (state) => {
     cartItemCount: state.cartItems.length,
     productList: state.productList,
     cartItems: state.cartItems,
+    filteredProductList: state.filteredProductList
   };
 };
 
@@ -75,6 +68,8 @@ const mapDispatchToProps = {
   addItemsToCart,
   fetchProductList,
   removeItemsFromCart,
+  filterProductList,
+  searchList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
