@@ -19,18 +19,12 @@ class App extends React.Component {
     };
   }
 
-  addToCart = (itemId) => {
-    // let cartItem = this.props.productList.filter(
-    //   (product) => product.id === itemId
-    // );
-    // this.setState({
-    //   cartItems: cartItems,
-    // });
-    this.props.addItemsToCart(itemId);
+  addToCart = (item) => {
+    this.props.addItemsToCart(item);
   };
 
-  removeFromCart = (itemId) => {
-    this.props.removeItemsFromCart(itemId);
+  removeFromCart = (item) => {
+    this.props.removeItemsFromCart(item);
   };
 
   onInputChange = (event) => {
