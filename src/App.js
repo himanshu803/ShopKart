@@ -3,45 +3,43 @@ import "./App.css";
 import Header from "./components/header/Header";
 import Listing from "./components/listing/Listing";
 import Search from "./components/search/Search";
-import axios from "axios";
+import { connect } from "react-redux";
+import {
+  addItemsToCart,
+  fetchProductList,
+  removeItemsFromCart,
+} from "./actions/action";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cartItems: [],
-      productData: [],
       filteredProductData: [],
       searchText: "",
     };
   }
 
   addToCart = (itemId) => {
-    let cartItems = this.state.cartItems;
-    let cartItem = this.state.productData.filter(
-      (product) => product.id === itemId
-    );
-    cartItems.push(cartItem[0]);
-    this.setState({
-      cartItems: cartItems,
-    });
+    // let cartItem = this.props.productList.filter(
+    //   (product) => product.id === itemId
+    // );
+    // this.setState({
+    //   cartItems: cartItems,
+    // });
+    this.props.addItemsToCart(itemId);
   };
 
   removeFromCart = (itemId) => {
-    this.setState({
-      cartItems: this.state.cartItems.filter(
-        (cartItem) => cartItem.id !== itemId
-      ),
-    });
+    this.props.removeItemsFromCart(itemId);
   };
 
   onInputChange = (event) => {
     const text = event.target.value.toLowerCase();
     const data = text
-      ? this.state.productData.filter((item) => {
+      ? this.props.productList.filter((item) => {
           return item.title.toLowerCase().includes(text);
         })
-      : this.state.productData;
+      : this.props.productList;
     this.setState({
       searchText: event.target.value,
       filteredProductData: data,
@@ -49,14 +47,15 @@ class App extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <div className="App">
         <div className="App-Header">
-          <Header cartCount={this.state.cartItems.length} />
+          <Header cartCount={this.props.cartItemCount} />
           <Search onInputChange={this.onInputChange} />
           <Listing
-            products={this.state.filteredProductData}
-            cartItems={this.state.cartItems}
+            products={this.props.productList}
+            cartItems={this.props.cartItems}
             addToCart={this.addToCart}
             removeFromCart={this.removeFromCart}
           />
@@ -66,13 +65,22 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("https://fakestoreapi.com/products").then((response) => {
-      this.setState({
-        productData: response.data,
-        filteredProductData: response.data,
-      });
-    });
+    this.props.fetchProductList();
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    cartItemCount: state.cartItems.length,
+    productList: state.productList,
+    cartItems: state.cartItems,
+  };
+};
+
+const mapDispatchToProps = {
+  addItemsToCart,
+  fetchProductList,
+  removeItemsFromCart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
