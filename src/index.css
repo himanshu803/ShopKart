@@ -12,16 +12,3 @@ code {
     monospace;
 }
 
-.header {
-  background-color: black;
-  color: white;
-  display: flex;
-  padding: 20px 50px;
-  justify-content: space-between;
-}
-
-.header-input {
-  padding: 5px;
-  margin: 0 50px;
-  height: 15px;
-}
