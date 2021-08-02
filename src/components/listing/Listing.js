@@ -21,14 +21,14 @@ const Listing = (props) => {
             {!isInCart ? (
               <button
                 className="product-add-btn"
-                onClick={() => props.addToCart(item.id)}
+                onClick={() => props.addToCart(item)}
               >
                 Add to cart
               </button>
             ) : (
               <button
                 className="product-remove-btn"
-                onClick={() => props.removeFromCart(item.id)}
+                onClick={() => props.removeFromCart(item)}
               >
                 Remove from cart
               </button>
