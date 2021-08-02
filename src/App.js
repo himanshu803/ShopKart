@@ -2,26 +2,49 @@ import React from "react";
 import "./App.css";
 import Header from "./components/header/Header";
 import Listing from "./components/listing/Listing";
+import Search from "./components/search/Search";
+import axios from "axios";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "Himanshu",
-      todoList: [],
+      cartItems: [],
+      productData: [],
+      filteredProductData: [],
+      searchText: "",
     };
   }
 
-  onSubmit = () => {
+  addToCart = (itemId) => {
+    let cartItems = this.state.cartItems;
+    let cartItem = this.state.productData.filter(
+      (product) => product.id === itemId
+    );
+    cartItems.push(cartItem[0]);
     this.setState({
-      todoList: [...this.state.todoList, this.state.username],
-      username: '',
+      cartItems: cartItems,
+    });
+  };
+
+  removeFromCart = (itemId) => {
+    this.setState({
+      cartItems: this.state.cartItems.filter(
+        (cartItem) => cartItem.id !== itemId
+      ),
     });
   };
 
   onInputChange = (event) => {
+    const text = event.target.value.toLowerCase();
+    const data = text
+      ? this.state.productData.filter((item) => {
+          return item.title.toLowerCase().includes(text);
+        })
+      : this.state.productData;
     this.setState({
-      username: event.target.value,
+      searchText: event.target.value,
+      filteredProductData: data,
     });
   };
 
@@ -29,16 +52,26 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="App-Header">
-          <Header />
+          <Header cartCount={this.state.cartItems.length} />
+          <Search onInputChange={this.onInputChange} />
           <Listing
-            todoList={this.state.todoList}
-            username={this.state.username}
-            onSubmit={this.onSubmit}
-            onInputChange={this.onInputChange}
+            products={this.state.filteredProductData}
+            cartItems={this.state.cartItems}
+            addToCart={this.addToCart}
+            removeFromCart={this.removeFromCart}
           />
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    axios.get("https://fakestoreapi.com/products").then((response) => {
+      this.setState({
+        productData: response.data,
+        filteredProductData: response.data,
+      });
+    });
   }
 }
 
