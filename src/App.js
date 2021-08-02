@@ -7,10 +7,9 @@ import Cart from "./components/cart/Cart";
 import Home from "./components/home/Home";
 
 const App = () => {
-  const { cartItemCount  } =
-    useSelector((state) => ({
-      cartItemCount: state.cartItems.length,
-    }));
+  const { cartItemCount } = useSelector((state) => ({
+    cartItemCount: state.cartItems.length,
+  }));
 
   return (
     <Router>
