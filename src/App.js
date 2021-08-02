@@ -1,21 +1,15 @@
 import React from "react";
 import "./App.css";
 import Header from "./components/header/Header";
-import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Cart from "./components/cart/Cart";
 import Home from "./components/home/Home";
 
 const App = () => {
-  const { cartItemCount  } =
-    useSelector((state) => ({
-      cartItemCount: state.cartItems.length,
-    }));
-
   return (
     <Router>
       <div>
-        <Header cartCount={cartItemCount} />
+        <Header />
         <Switch>
           <Route exact path="/">
             <Home />
