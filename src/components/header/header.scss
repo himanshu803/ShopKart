@@ -1,0 +1,14 @@
+.header {
+  background-color: black;
+  color: white;
+  display: flex;
+  padding: 20px 50px;
+  justify-content: space-between;
+  text-decoration: none;
+
+  &-title,
+  &-cart-count {
+    text-decoration: none;
+    color: white;
+  }
+}

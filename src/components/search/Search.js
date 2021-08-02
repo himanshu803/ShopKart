@@ -1,11 +1,34 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { filterProductList, searchList } from "../../actions/action";
 import "./search.scss";
 
-const Search = (props) => {
+const Search = () => {
+  const productList = useSelector((state) => state.productList);
+
+  const dispatch = useDispatch();
+
+  const onInputChange = (event) => {
+    const text = event.target.value.toLowerCase();
+    const data = text
+      ? productList.filter((item) => {
+          return item.title.toLowerCase().includes(text);
+        })
+      : productList;
+
+    dispatch(searchList(event.target.value));
+    dispatch(filterProductList(data));
+  };
+
   return (
-    <div>
+    <div role="searchbox">
       <br />
-      <input className="product-search" placeholder="Search your product" onInput={props.onInputChange}/>
+      <input
+        className="product-search"
+        placeholder="Search your product"
+        data-testid="search-bar"
+        onInput={onInputChange}
+      />
     </div>
   );
 };
