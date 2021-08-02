@@ -1,12 +1,28 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemsToCart, removeItemsFromCart } from "../../actions/action";
 import "./listing.scss";
-// import productImage from "../../assets/images/download.jpg";
 
-const Listing = (props) => {
+const Listing = () => {
+  const { filteredProductList, cartItems } = useSelector((state) => ({
+    filteredProductList: state.filteredProductList,
+    cartItems: state.cartItems,
+  }));
+
+  const dispatch = useDispatch();
+
+  const addToCart = (item) => {
+    dispatch(addItemsToCart(item));
+  };
+
+  const removeFromCart = (item) => {
+    dispatch(removeItemsFromCart(item));
+  };
+
   return (
-    <div className="product-list">
-      {props.products.map((item) => {
-        let isInCart = props.cartItems.find((cartItem) => {
+    <div data-testid="product-list" className="product-list">
+      {filteredProductList.map((item) => {
+        let isInCart = cartItems.find((cartItem) => {
           return cartItem.id === item.id;
         });
         return (
@@ -21,14 +37,14 @@ const Listing = (props) => {
             {!isInCart ? (
               <button
                 className="product-add-btn"
-                onClick={() => props.addToCart(item)}
+                onClick={() => addToCart(item)}
               >
                 Add to cart
               </button>
             ) : (
               <button
                 className="product-remove-btn"
-                onClick={() => props.removeFromCart(item)}
+                onClick={() => removeFromCart(item)}
               >
                 Remove from cart
               </button>

@@ -4,7 +4,7 @@ import { filterProductList, searchList } from "../../actions/action";
 import "./search.scss";
 
 const Search = () => {
-  const productList = useSelector(state => state.productList)
+  const productList = useSelector((state) => state.productList);
 
   const dispatch = useDispatch();
 
@@ -21,11 +21,12 @@ const Search = () => {
   };
 
   return (
-    <div>
+    <div role="searchbox">
       <br />
       <input
         className="product-search"
         placeholder="Search your product"
+        data-testid="search-bar"
         onInput={onInputChange}
       />
     </div>
