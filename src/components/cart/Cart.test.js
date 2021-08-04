@@ -19,14 +19,13 @@ test("Cart with items", () => {
   expect(CartWithItems).toBeInTheDocument();
 });
 
-
-test("Empty cart items", () => {
-    const store = mockStore(storeWithoutCartItems);
-    render(
-      <Provider store={store}>
-        <Cart />
-      </Provider>
-    );
-    const CartWithOutItems = screen.getByText(/cart is empty/i);
-    expect(CartWithOutItems).toBeInTheDocument();
-  });
+test("Cart is empty", () => {
+  const store = mockStore(storeWithoutCartItems);
+  render(
+    <Provider store={store}>
+      <Cart />
+    </Provider>
+  );
+  const CartWithOutItems = screen.getByText(/cart is empty/i);
+  expect(CartWithOutItems).toBeInTheDocument();
+});
